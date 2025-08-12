@@ -8,7 +8,8 @@ Hotel managers can easily **manage menus, tables, and order statuses** from an i
 ---
 
 ## Checkout Website Here : https://scanfeast-vvss.onrender.com
-## Example QR code : ![QR Code](images/Table1_QR_Hotel1.png)
+## Example QR code :
+![QR Code](images/Table1_QR_Hotel1.png)
 
 ## 🚀 Features
 
