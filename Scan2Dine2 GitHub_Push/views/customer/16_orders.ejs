@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= hotelName %> - Menu</title>
+  <link rel="stylesheet" href="/css/16_orders.css">
+</head>
+<body>
+  <h2>Welcome to <%= hotelName %> (Table <%= tableNo %>)</h2>
+
+  <div class="menu-container">
+    <% menu.forEach(item => { %>
+      <div class="menu-item">
+        <% if (item.image_url) { %>
+          <img src="<%= item.image_url %>" alt="<%= item.name %>" class="menu-item-image" />
+        <% } else { %>
+          <div class="menu-item-image placeholder">No Image</div>
+        <% } %>
+
+        <h3><%= item.name %></h3>
+        <p>₹<%= item.price %></p>
+        <form method="POST" action="/add-to-cart">
+          <input type="hidden" name="id" value="<%= item.id %>" />
+          <input type="hidden" name="name" value="<%= item.name %>" />
+          <input type="hidden" name="price" value="<%= item.price %>" />
+          <input type="hidden" name="hotel_id" value="<%= hotelId %>" />
+          <input type="hidden" name="table_no" value="<%= tableNo %>" />
+          <label>Qty: <input type="number" name="quantity" min="1" value="1" /></label>
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <a href="/cart"><button>GOTO Cart</button></a>
+</body>
+</html>

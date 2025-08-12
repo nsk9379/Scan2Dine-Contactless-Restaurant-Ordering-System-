@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify OTP – Forgot Password</title>
+  <link rel="stylesheet" href="/css/8_verifyForgotPassword.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Verify OTP</h2>
+
+    <% if (locals.message) { %>
+      <p class="error"><%= message %></p>
+    <% } %>
+
+    <form action="/forgot-password/verify-otp" method="POST">
+      <label for="otp">Enter the OTP sent to <%= contact %>:</label>
+      <input type="text" autofocus autocomplete="off" id="otp" name="otp" required placeholder="Enter OTP">
+
+      <button type="submit">Verify OTP</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>© 2025 Scan2Dine</p>
+  </footer>
+
+</body>
+</html>

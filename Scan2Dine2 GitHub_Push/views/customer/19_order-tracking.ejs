@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Track Your Order</title>
+  <link rel="stylesheet" href="/css/19_order-tracking.css">
+</head>
+<body>
+  <h2>✅ Order Placed Successfully!</h2>
+
+  <h3>
+    Hotel: <%= hotel_name %><br>
+    Table: <%= table_no %>
+  </h3>
+
+  <h3>Status: <span id="status"><%= status %></span></h3>
+
+  <p>You can keep this page open to track updates or ask hotel staff if needed.</p>
+
+  <button onclick="location.reload()">Refresh</button>
+  <br/>
+
+  <script>
+    setInterval(() => location.reload(), 15000);
+  </script>
+</body>
+</html>

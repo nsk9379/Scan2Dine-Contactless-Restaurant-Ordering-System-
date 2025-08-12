@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="/css/17_cart.css">
+</head>
+<body>
+  <h2>Your Cart</h2>
+
+  <% if (cart.length === 0) { %>
+    <p>Your cart is empty.</p>
+    <a href="javascript:history.back()">Back to Menu</a>
+  <% } else { %>
+    <form action="/update-cart" method="POST">
+      <table border="1">
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Remove</th>
+        </tr>
+
+        <% cart.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td>
+              <input type="number" name="qty_<%= index %>" value="<%= item.qty %>" min="1" />
+            </td>
+            <td>₹<%= item.price * item.qty %></td>
+            <td>
+              <input type="checkbox" name="remove_<%= index %>" />
+            </td>
+          </tr>
+        <% }); %>
+      </table>
+      <button type="submit">Update Cart</button>
+    </form>
+
+    <form action="/add-again" method="GET">
+      <button type="submit">Add More Food</button>
+    </form>
+
+    <form action="/checkout" method="GET">
+      <button type="submit">Proceed to Payment</button>
+    </form>
+  <% } %>
+</body>
+</html>

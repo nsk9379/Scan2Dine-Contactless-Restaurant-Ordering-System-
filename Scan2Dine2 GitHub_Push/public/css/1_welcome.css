@@ -1,0 +1,141 @@
+/* 1_welcome.css */
+
+:root {
+  --color-primary: #faad14;  /* warm yellow-orange */
+  --color-secondary: #f6841f; /* rich orange */
+  --color-accent: #52c41a; /* fresh green for accents */
+  --bg-color: #fffef0;   /* soft off-white for background */
+  --text-color: #333;    /* standard readable text */
+  --shadow: rgba(82, 196, 65, 0.2); /* soft greenish shadows for buttons */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --border-radius: 12px;
+  --padding: 1.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--padding);
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Container styles */
+.container {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  padding: var(--padding);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  background: #fff;
+  border-radius: var(--border-radius);
+}
+
+/* Heading styles */
+h1 {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h1 span {
+  font-weight: 900;
+}
+
+/* Image styling */
+img {
+  width: 100%;
+  max-width: 1024px;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  margin: 1.5rem 0;
+  object-fit: cover;
+}
+
+/* Paragraph and list styles */
+p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+ul {
+  list-style: disc inside;
+  margin: 1rem auto;
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+li {
+  margin: 0.75rem 0;
+}
+
+/* Button styles */
+a > button {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: calc(var(--border-radius) / 2);
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px var(--shadow);
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  margin-top: 2rem;
+}
+a > button:hover,
+a > button:focus {
+  background-color: var(--color-secondary);
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--shadow);
+}
+
+/* Footer styles */
+footer {
+  margin-top: 3rem;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.95rem;
+  color: #777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 720px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  ul {
+    font-size: 1rem;
+  }
+
+  a > button {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+}

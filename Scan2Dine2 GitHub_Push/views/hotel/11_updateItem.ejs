@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Item – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/11_updateItem.css">
+</head>
+<body>
+  <h2>Update Food Item</h2>
+
+  <% if (locals.message) { %>
+    <p><%= message %></p>
+  <% } %>
+
+  <form action="/update-item-done/<%= item.id %>" method="POST" enctype="multipart/form-data">
+    <label>Item Name *</label>
+    <input type="text" name="name" value="<%= item.name %>" required>
+
+    <label>Description</label>
+    <textarea name="description"><%= item.description %></textarea>
+
+    <label>Price (₹) *</label>
+    <input type="number" name="price" value="<%= item.price %>" required step="0.01" min="0">
+
+    <label>Category *</label>
+    <select name="category" required>
+      <option value="">-- Select Category --</option>
+      <option value="Starter" <%= item.category === 'Starter' ? 'selected' : '' %>>Starter</option>
+      <option value="Main Course" <%= item.category === 'Main Course' ? 'selected' : '' %>>Main Course</option>
+      <option value="Dessert" <%= item.category === 'Dessert' ? 'selected' : '' %>>Dessert</option>
+      <option value="Drinks" <%= item.category === 'Drinks' ? 'selected' : '' %>>Drinks</option>
+      <option value="Other" <%= item.category === 'Other' ? 'selected' : '' %>>Other</option>
+    </select>
+
+    <label>Image (optional)</label>
+    <input type="file" name="image" accept="image/*">
+
+    <% if (item.image_url) { %>
+      <p>Current image: <img src="<%= item.image_url %>" alt="item" width="100"></p>
+    <% } %>
+
+    <button type="submit">Update Item</button>
+  </form>
+
+  <form action="/display-menu" method="GET">
+    <button type="submit">← Back to Menu</button>
+  </form>
+</body>
+</html>

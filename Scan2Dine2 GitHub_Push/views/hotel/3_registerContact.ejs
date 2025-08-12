@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/3_registerContact.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Register to Scan2Dine</h2>
+
+    <% if (locals.message) { %>
+      <p style="color: red;"><%= message %></p>
+    <% } %>
+
+    <form action="/register/send-otp" method="POST">
+      <label for="contact">Email or Phone:</label>
+      <input type="text" autofocus autocomplete="off" id="contact" name="contact" placeholder="Enter email or phone" required>
+
+      <button type="submit">Send OTP</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+
+</body>
+</html>

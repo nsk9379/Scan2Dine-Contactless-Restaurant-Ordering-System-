@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel Login – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/5_login.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Hotel Staff Login</h1>
+    <% if (typeof message !== 'undefined') { %>
+  <p class="error"><%= message %></p>
+<% } %>
+
+    <form action="/verify-password" method="POST">
+      <label id="label-login" for="loginInput">Mobile Number Or Email:</label>
+      <input type="text" autofocus autocomplete="off" id="loginInput" name="loginInput" placeholder="Enter mobile number Or Email" required>
+
+      <div id="passwordSection">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter password">
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+
+  </div>
+
+  <footer>
+    <p>© 2025 Scan2Dine</p>
+  </footer>
+   <p>Don't have an account? <a href="/register">Register</a></p>
+
+   <p><a href="/forgot-password">Forgot Password?</a></p>
+
+</body>
+</html>

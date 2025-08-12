@@ -1,0 +1,679 @@
+/* 18_payment.css - Modern Payment Checkout Styles */
+
+:root {
+  /* Food-Themed Color Palette */
+  --primary-orange: #ff6b35;
+  --warm-yellow: #ffa500;
+  --fresh-green: #4caf50;
+  --dark-green: #2e7d32;
+  --royal-blue: #3498db;
+  --deep-blue: #2980b9;
+  --success-green: #27ae60;
+  --cart-red: #e74c3c;
+  --cart-dark: #c0392b;
+  --cream-white: #fefefe;
+  --soft-white: #f9f9f9;
+  --light-gray: #f5f5f5;
+  --text-dark: #2c2c2c;
+  --text-light: #666666;
+  --text-medium: #555555;
+  --border-color: #e0e0e0;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.15);
+  --border-radius: 15px;
+  --transition: all 0.3s ease;
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="paymentPattern" width="50" height="50" patternUnits="userSpaceOnUse"><rect x="10" y="15" width="30" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" rx="3"/><circle cx="15" cy="20" r="1" fill="rgba(255,255,255,0.08)"/><circle cx="35" cy="20" r="1" fill="rgba(255,255,255,0.08)"/><path d="M15,25 L35,25 M18,30 L32,30" stroke="rgba(255,255,255,0.06)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23paymentPattern)"/></svg>');
+  pointer-events: none;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+h2::after {
+  content: '💳';
+  margin-left: 0.5rem;
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+h3::before {
+  content: '💰';
+  margin-right: 0.5rem;
+}
+
+/* Container for main content */
+body > * {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Empty cart styling */
+body > p {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--text-medium);
+  padding: 3rem 2rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 2rem;
+}
+
+body > p::before {
+  content: '🛒';
+  display: block;
+  font-size: 4rem;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+
+/* Back to menu link for empty cart */
+body > a:first-of-type {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: fit-content;
+  background: linear-gradient(135deg, var(--primary-orange), var(--warm-yellow));
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-medium);
+}
+
+body > a:first-of-type:hover {
+  background: linear-gradient(135deg, var(--warm-yellow), var(--primary-orange));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+}
+
+body > a:first-of-type::before {
+  content: '← ';
+  margin-right: 0.3rem;
+}
+
+/* Order summary table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cream-white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 2.5rem;
+}
+
+table::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--success-green), var(--warm-yellow), var(--primary-orange));
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+th {
+  background: linear-gradient(135deg, var(--text-dark), var(--text-medium));
+  color: white;
+  padding: 1.2rem 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: left;
+  border: none;
+}
+
+th:first-child { border-radius: var(--border-radius) 0 0 0; }
+th:last-child { border-radius: 0 var(--border-radius) 0 0; }
+
+td {
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+  color: var(--text-dark);
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+tr:nth-child(even) {
+  background: rgba(76, 175, 80, 0.02);
+}
+
+tr:hover:not(:last-child) {
+  background: rgba(76, 175, 80, 0.05);
+  transform: translateX(2px);
+  transition: var(--transition);
+}
+
+/* Item name styling */
+td:first-child {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+td:first-child::before {
+  content: '🍽️ ';
+  margin-right: 0.3rem;
+  opacity: 0.7;
+}
+
+/* Quantity styling */
+td:nth-child(2) {
+  text-align: center;
+  font-weight: 600;
+  color: var(--royal-blue);
+}
+
+/* Price and subtotal styling */
+td:nth-child(3),
+td:nth-child(4) {
+  font-weight: 600;
+  color: var(--fresh-green);
+  font-size: 1.1rem;
+}
+
+/* Total row styling */
+tr:last-child {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(39, 174, 96, 0.1));
+  font-size: 1.2rem;
+}
+
+tr:last-child td {
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 1.3rem;
+  padding: 1.5rem 1rem;
+}
+
+tr:last-child td:last-child {
+  color: var(--success-green);
+  font-size: 1.5rem;
+}
+
+/* Payment method form */
+form {
+  background: var(--cream-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--royal-blue), var(--deep-blue), var(--success-green));
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+form label {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
+  background: var(--soft-white);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+form label:hover {
+  background: rgba(52, 152, 219, 0.05);
+  border-color: var(--royal-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+form label:has(input:checked) {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+  border-color: var(--royal-blue);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+form input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 1rem;
+  accent-color: var(--royal-blue);
+  cursor: pointer;
+}
+
+/* Payment method icons */
+form label:has(input[value="UPI"])::after {
+  content: '📱';
+  margin-left: auto;
+  font-size: 1.5rem;
+}
+
+form label:has(input[value="COD"])::after {
+  content: '💵';
+  margin-left: auto;
+  font-size: 1.5rem;
+}
+
+/* Place order button */
+form button {
+  width: 100%;
+  background: linear-gradient(135deg, var(--success-green), var(--dark-green));
+  color: white;
+  border: none;
+  padding: 1.5rem 2rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: order-pulse 3s infinite;
+}
+
+@keyframes order-pulse {
+  0%, 100% { 
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 12px 35px rgba(39, 174, 96, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+form button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+form button:hover::before {
+  left: 100%;
+}
+
+form button:hover {
+  background: linear-gradient(135deg, var(--dark-green), var(--success-green));
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(39, 174, 96, 0.5);
+}
+
+form button::after {
+  content: ' 🎯';
+  margin-left: 0.5rem;
+  font-size: 1.4rem;
+}
+
+/* Back to cart link */
+body > a:last-of-type {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--text-dark);
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-light);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body > a:last-of-type:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--royal-blue);
+  color: var(--royal-blue);
+}
+
+body > a:last-of-type::before {
+  content: '🛒 ';
+  margin-right: 0.3rem;
+}
+
+/* Remove <br> elements with CSS */
+br {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 0.8rem;
+  }
+  
+  h2 {
+    font-size: 2.2rem;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  h2::after {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  table {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  
+  table tbody {
+    display: table;
+    width: 100%;
+  }
+  
+  th, td {
+    padding: 1rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  th {
+    font-size: 1rem;
+  }
+  
+  td:first-child {
+    font-size: 1rem;
+  }
+  
+  tr:last-child td {
+    font-size: 1.2rem;
+    padding: 1.2rem 0.8rem;
+  }
+  
+  tr:last-child td:last-child {
+    font-size: 1.3rem;
+  }
+  
+  form {
+    padding: 2rem 1.5rem;
+  }
+  
+  form label {
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  form button {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  body > p {
+    padding: 2.5rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  body > a {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    padding: 1rem 1.2rem;
+  }
+  
+  h2::after {
+    font-size: 1.8rem;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+  }
+  
+  th, td {
+    padding: 0.8rem 0.6rem;
+    font-size: 0.9rem;
+  }
+  
+  td:first-child {
+    font-size: 0.95rem;
+  }
+  
+  tr:last-child td {
+    font-size: 1.1rem;
+    padding: 1rem 0.6rem;
+  }
+  
+  tr:last-child td:last-child {
+    font-size: 1.2rem;
+  }
+  
+  form {
+    padding: 1.5rem 1rem;
+  }
+  
+  form label {
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+  }
+  
+  form button {
+    padding: 1.1rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  body > p {
+    padding: 2rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  body > p::before {
+    font-size: 3rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h2 {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+body > p {
+  animation: slideInScale 0.6s ease-out 0.2s both;
+}
+
+body > a:first-of-type {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+table {
+  animation: slideInScale 0.6s ease-out 0.2s both;
+}
+
+h3 {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+form {
+  animation: slideInScale 0.6s ease-out 0.5s both;
+}
+
+body > a:last-of-type {
+  animation: fadeInUp 0.8s ease-out 0.7s both;
+}
+
+table tr {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+table tr:nth-child(1) { animation-delay: 0.3s; }
+table tr:nth-child(2) { animation-delay: 0.35s; }
+table tr:nth-child(3) { animation-delay: 0.4s; }
+table tr:nth-child(4) { animation-delay: 0.45s; }
+table tr:nth-child(5) { animation-delay: 0.5s; }
+table tr:nth-child(n+6) { animation-delay: 0.55s; }
+
+/* Focus and accessibility */
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  table,
+  form {
+    border: 2px solid var(--text-dark);
+  }
+  
+  th, td {
+    border: 1px solid var(--text-dark);
+  }
+  
+  form label {
+    border-width: 3px;
+  }
+}
+
+/* Loading states */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

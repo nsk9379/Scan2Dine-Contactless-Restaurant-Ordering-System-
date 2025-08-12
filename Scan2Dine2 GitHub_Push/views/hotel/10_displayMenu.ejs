@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/10_displayMenu.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Your Menu</h2>
+
+    <% if (foodItems.length === 0) { %>
+      <p class="info">No available food items found.</p>
+    <% } %>
+
+    <div class="menu-grid">
+      <% foodItems.forEach(item => { %>
+        <% if (item.availability) { %>
+          <div class="card">
+            <% if (item.image_url) { %>
+              <img src="<%= item.image_url %>" alt="<%= item.name %> image">
+            <% } else { %>
+              <div class="placeholder">No Image</div>
+            <% } %>
+            
+            <div class="details">
+              <h3><%= item.name %></h3>
+              <p class="category"><%= item.category %></p>
+              <p class="description"><%= item.description || 'No description' %></p>
+              <p class="price">₹ <%= item.price %></p>
+            </div>
+
+            <div class="actions">
+              <form action="/mark-unavailable/<%= item.id %>" method="POST">
+                <button class="delete-btn" onclick="return confirm('Mark this item as unavailable?')">Mark Unavailable</button>
+              </form>
+
+              <form action="/update-item/<%= item.id %>" method="GET">
+                <button class="update-btn">Update</button>
+              </form>
+            </div>
+          </div>
+        <% } %>
+      <% }); %>
+    </div>
+
+    <form action="/home" method="post">
+      <button class="back-btn">← Back to Dashboard</button>
+    </form>
+  </div>
+</body>
+</html>

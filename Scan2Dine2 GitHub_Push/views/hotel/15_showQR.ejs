@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Codes</title>
+  <link rel="stylesheet" href="/css/15_showQR.css">
+</head>
+<body>
+  <h2>QR Codes for All Tables</h2>
+  <ul>
+    <% qrCodes.forEach((qr) => { %>
+      <li>
+        <p>Table <%= qr.table_no %></p>
+        <img src="<%= qr.qr_image %>" width="200" />
+        <a href="<%= qr.qr_image %>" download="Table<%= qr.table_no %>_QR.png">Download</a>
+      </li>
+    <% }); %>
+  </ul>
+  <a href="/add-table">Add More Tables</a>
+</body>
+</html>

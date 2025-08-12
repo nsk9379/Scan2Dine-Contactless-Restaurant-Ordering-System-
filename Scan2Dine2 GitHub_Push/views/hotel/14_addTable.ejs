@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Table</title>
+  <link rel="stylesheet" href="/css/14_addTable.css">
+</head>
+<body>
+  <h2>Add New Table</h2>
+  <form action="/add-table" method="POST">
+    <label for="table_no">Enter Table Number:</label>
+    <input type="number" name="table_no" id="table_no" required />
+    <button type="submit">Generate QR Code</button>
+  </form>
+  <a href="/show-qr">Back to QR List</a>
+</body>
+</html>
