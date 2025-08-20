@@ -763,7 +763,7 @@ app.post("/add-table", ensureLoggedIn, async (req, res) => {
     const { table_no } = req.body;
 
     // FIXED: Use HTTP instead of HTTPS for localhost
-    const qrData = `https://Scan2Dine-vvss.onrender.com/order?hotel_id=${user_id}&table_no=${table_no}`;
+    const qrData = `https://scan2dine.onrender.com/order?hotel_id=${user_id}&table_no=${table_no}`;
     const qrImage = await QRCode.toDataURL(qrData);
 
     await db.query(
@@ -1855,3 +1855,4 @@ app.listen(port, () => {
   console.log(`Server is running on https://localhost:${port}`);
 
 });
+
