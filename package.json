@@ -1,0 +1,32 @@
+{
+  "name": "allpackages",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "fs": "^0.0.1-security",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.5",
+    "path": "^0.12.7",
+    "pg": "^8.16.3",
+    "qrcode": "^1.5.4",
+    "twilio": "^5.7.3",
+    "url": "^0.11.4",
+    "uuid": "^11.1.0"
+  },
+  "keywords": [],
+  "devDependencies": {},
+  "description": ""
+}
