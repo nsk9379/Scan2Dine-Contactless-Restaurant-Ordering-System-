@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= hotelName %> - Menu</title>
+  <link rel="stylesheet" href="/css/16_orders.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h2>Welcome to <%= hotelName %> (Table <%= tableNo %>)</h2>
+
+  <div class="menu-container">
+    <% menu.forEach(item => { %>
+      <div class="menu-item" data-category="<%= item.category.toLowerCase().replace(/\s+/g, '-') %>">
+        <% if (item.image_url) { %>
+          <img src="<%= item.image_url %>" alt="<%= item.name %>" class="menu-item-image" />
+        <% } else { %>
+          <div class="menu-item-image placeholder">No Image</div>
+        <% } %>
+        
+        <div class="category-badge"><%= item.category %></div>
+        
+        <h3><%= item.name %></h3>
+        <% if (item.description) { %>
+          <p class="description"><%= item.description %></p>
+        <% } %>
+        <p class="price">₹<%= item.price %></p>
+        
+        <form method="POST" action="/add-to-cart">
+          <input type="hidden" name="id" value="<%= item.id %>" />
+          <input type="hidden" name="name" value="<%= item.name %>" />
+          <input type="hidden" name="price" value="<%= item.price %>" />
+          <input type="hidden" name="hotel_id" value="<%= hotelId %>" />
+          <input type="hidden" name="table_no" value="<%= tableNo %>" />
+          <label>Qty: <input type="number" name="quantity" min="1" value="1" /></label>
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- Cart Button -->
+  <a href="/cart"><button class="cart-btn">GOTO Cart</button></a>
+
+  <!-- Category Filter -->
+  <div class="category-filter">
+    <button class="filter-btn" id="filterBtn">
+      <span id="currentFilter">All</span>
+      <span class="filter-icon">🍽️</span>
+    </button>
+    
+    <div class="filter-dropdown" id="filterDropdown">
+      <div class="filter-header">Filter by Category</div>
+      <div class="filter-options">
+        <a href="/order?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>" 
+           class="filter-option <%= (!locals.currentCategory || locals.currentCategory === 'All') ? 'active' : '' %>" 
+           data-category="all">
+          <span class="option-icon">🍽️</span>
+          All Items
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Starter" 
+           class="filter-option <%= locals.currentCategory === 'Starter' ? 'active' : '' %>" 
+           data-category="starter">
+          <span class="option-icon">🥗</span>
+          Starter
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Main%20Course" 
+           class="filter-option <%= locals.currentCategory === 'Main Course' ? 'active' : '' %>" 
+           data-category="main-course">
+          <span class="option-icon">🍛</span>
+          Main Course
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Roti" 
+           class="filter-option <%= locals.currentCategory === 'Roti' ? 'active' : '' %>" 
+           data-category="roti">
+          <span class="option-icon">🫓</span>
+          Roti
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Dessert" 
+           class="filter-option <%= locals.currentCategory === 'Dessert' ? 'active' : '' %>" 
+           data-category="dessert">
+          <span class="option-icon">🍰</span>
+          Dessert
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Drinks" 
+           class="filter-option <%= locals.currentCategory === 'Drinks' ? 'active' : '' %>" 
+           data-category="drinks">
+          <span class="option-icon">🥤</span>
+          Drinks
+        </a>
+        
+        <a href="/order/filter?hotel_id=<%= hotelId %>&table_no=<%= tableNo %>&category=Other" 
+           class="filter-option <%= locals.currentCategory === 'Other' ? 'active' : '' %>" 
+           data-category="other">
+          <span class="option-icon">🍴</span>
+          Other
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay for closing dropdown -->
+  <div class="dropdown-overlay" id="dropdownOverlay"></div>
+
+  <script>
+    // Filter functionality
+    const filterBtn = document.getElementById('filterBtn');
+    const filterDropdown = document.getElementById('filterDropdown');
+    const dropdownOverlay = document.getElementById('dropdownOverlay');
+    const currentFilterSpan = document.getElementById('currentFilter');
+    
+    // Toggle dropdown
+    filterBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = filterDropdown.classList.contains('show');
+      
+      if (isOpen) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    });
+    
+    // Close dropdown when clicking overlay
+    dropdownOverlay.addEventListener('click', closeDropdown);
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+    
+    function openDropdown() {
+      filterDropdown.classList.add('show');
+      dropdownOverlay.classList.add('show');
+      filterBtn.classList.add('active');
+    }
+    
+    function closeDropdown() {
+      filterDropdown.classList.remove('show');
+      dropdownOverlay.classList.remove('show');
+      filterBtn.classList.remove('active');
+    }
+    
+    // Update current filter display based on URL or passed category
+    function updateCurrentFilter() {
+      const currentCategory = '<%= locals.currentCategory || "All" %>';
+      const categoryNames = {
+        'All': 'All',
+        'Starter': 'Starter',
+        'Main Course': 'Main Course',
+        'Roti': 'Roti',
+        'Dessert': 'Dessert',
+        'Drinks': 'Drinks',
+        'Other': 'Other'
+      };
+      
+      currentFilterSpan.textContent = categoryNames[currentCategory] || 'All';
+    }
+    
+    // Initialize
+    updateCurrentFilter();
+    
+    // Handle filter option clicks
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function(e) {
+        // Show loading state
+        const loadingText = 'Loading...';
+        currentFilterSpan.textContent = loadingText;
+        closeDropdown();
+      });
+    });
+    
+    // Add smooth scrolling for better UX
+    function smoothScrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Auto close dropdown on scroll
+    let scrollTimer;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function() {
+        if (filterDropdown.classList.contains('show')) {
+          closeDropdown();
+        }
+      }, 100);
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && filterDropdown.classList.contains('show')) {
+        closeDropdown();
+      }
+    });
+    
+    // Add ripple effect to filter options
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function(e) {
+        const ripple = document.createElement('div');
+        ripple.classList.add('ripple');
+        this.appendChild(ripple);
+        
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 300);
+      });
+    });
+  </script>
+</body>
+</html>

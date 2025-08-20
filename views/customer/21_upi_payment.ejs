@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan2Dine - Payment</title>
+    <link rel="stylesheet" href="/css/21_upi_payment.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="payment-container">
+        <div class="loading-spinner"></div>
+        <h2>Processing Payment...</h2>
+        <p>Please wait while we open the secure Razorpay payment window.</p>
+    </div>
+
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "<%= razorpayKeyId %>", // Razorpay Key ID
+            "amount": "<%= amount * 100 %>", // Amount in paisa
+            "currency": "INR",
+            "name": "Scan2Dine",
+            "description": "Order Payment",
+            "order_id": "<%= orderId %>", // Order ID from server
+            "handler": function (response) {
+                fetch('/confirm-upi-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                        hotel_id: "<%= hotel_id %>",
+                        table_no: "<%= table_no %>"
+                    })
+                })
+                .then(res => {
+                    if (res.ok) {
+                        window.location.href = "/order-tracking";
+                    }
+                });
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    </script>
+</body>
+</html>

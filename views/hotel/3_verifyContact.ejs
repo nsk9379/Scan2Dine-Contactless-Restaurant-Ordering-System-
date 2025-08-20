@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify OTP – Register</title>
+  <link rel="stylesheet" href="/css/3_verifyContact.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Verify OTP</h2>
+
+    <% if (message) { %>
+      <p style="color: red;"><%= message %></p>
+    <% } %>
+
+    <form action="/register/verify-otp" method="POST">
+      <label for="otp">Enter the OTP sent to <%= contact %>:</label>
+      <input type="text" autofocus autocomplete="off" id="otp" name="otp" required placeholder="6-digit OTP">
+
+      <input type="hidden" name="contact" value="<%= contact %>">
+
+      <button type="submit">Verify OTP</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+
+</body>
+</html>

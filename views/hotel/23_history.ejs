@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History - <%= hotelName %> | Scan2Dine</title>
+  <link rel="stylesheet" href="/css/23_history.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="header">
+      <h1>📊 Order History</h1>
+      <h2><%= hotelName %></h2>
+      <p>Detailed analysis of your restaurant's order performance</p>
+    </div>
+
+    <!-- Message Display -->
+    <% if (locals.message) { %>
+      <div class="message <%= locals.messageType || 'info' %>">
+        <span class="message-icon">
+          <% if (locals.messageType === 'error') { %>
+            ❌
+          <% } else if (locals.messageType === 'success') { %>
+            ✅
+          <% } else { %>
+            ℹ️
+          <% } %>
+        </span>
+        <%= message %>
+      </div>
+    <% } %>
+
+    <!-- Statistics Dashboard -->
+    <% if (locals.statistics) { %>
+      <div class="statistics-dashboard">
+        <h3>📈 Summary Statistics</h3>
+        
+        <div class="stats-grid">
+          <div class="stat-card total">
+            <div class="stat-icon">📋</div>
+            <div class="stat-info">
+              <span class="stat-number"><%= statistics.total %></span>
+              <span class="stat-label">Total Orders</span>
+            </div>
+          </div>
+          
+          <div class="stat-card pending">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-info">
+              <span class="stat-number"><%= statistics.pending %></span>
+              <span class="stat-label">Pending</span>
+            </div>
+          </div>
+          
+          <div class="stat-card preparing">
+            <div class="stat-icon">👨‍🍳</div>
+            <div class="stat-info">
+              <span class="stat-number"><%= statistics.preparing %></span>
+              <span class="stat-label">Preparing</span>
+            </div>
+          </div>
+          
+          <div class="stat-card complete">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+              <span class="stat-number"><%= statistics.complete %></span>
+              <span class="stat-label">Complete</span>
+            </div>
+          </div>
+          
+          <div class="stat-card cancelled">
+            <div class="stat-icon">❌</div>
+            <div class="stat-info">
+              <span class="stat-number"><%= statistics.cancelled %></span>
+              <span class="stat-label">Cancelled</span>
+            </div>
+          </div>
+          
+          <div class="stat-card revenue">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+              <span class="stat-number">₹<%= statistics.totalAmount.toFixed(2) %></span>
+              <span class="stat-label">Total Revenue</span>
+            </div>
+          </div>
+          
+          <div class="stat-card average">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <span class="stat-number">₹<%= statistics.averageAmount.toFixed(2) %></span>
+              <span class="stat-label">Average Order</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Applied Filters -->
+    <% if (locals.filterInfo) { %>
+      <div class="filter-summary">
+        <h3>🔍 Applied Filters</h3>
+        <div class="filter-tags">
+          <span class="filter-tag status">
+            <strong>Status:</strong> <%= filterInfo.status %>
+          </span>
+          <span class="filter-tag date">
+            <strong>Date:</strong> <%= filterInfo.dateRange %>
+          </span>
+          <span class="filter-tag table">
+            <strong>Table:</strong> <%= filterInfo.tableNo %>
+          </span>
+          <span class="filter-tag amount">
+            <strong>Amount:</strong> <%= filterInfo.minAmount %>
+          </span>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Orders Table -->
+    <% if (orders && orders.length > 0) { %>
+      <div class="orders-section">
+        <div class="section-header">
+          <h3>📋 Order Details</h3>
+          <div class="table-actions">
+            <button onclick="printTable()" class="action-btn print-btn">
+              <span class="btn-icon">🖨️</span>
+              <span class="btn-text">Print</span>
+            </button>
+            <button onclick="exportCSV()" class="action-btn export-btn">
+              <span class="btn-icon">📊</span>
+              <span class="btn-text">Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table id="ordersTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0)">
+                  Order ID <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(1)">
+                  Table <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(2)">
+                  Items <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(3)">
+                  Amount <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(4)">
+                  Payment <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(5)">
+                  Status <span class="sort-icon">↕️</span>
+                </th>
+                <th onclick="sortTable(6)">
+                  Date & Time <span class="sort-icon">↕️</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% orders.forEach((order, index) => { %>
+                <tr class="order-row <%= order.status %>" data-order-id="<%= order.id %>">
+                  <td class="order-id">
+                    <strong>#<%= order.id %></strong>
+                  </td>
+                  
+                  <td class="table-no">
+                    <span class="table-badge">🪑 <%= order.table_no %></span>
+                  </td>
+                  
+                  <td class="items-cell">
+                    <div class="items-summary">
+                      <% 
+                        let items;
+                        let itemCount = 0;
+                        let totalQty = 0;
+                        
+                        try {
+                          if (order.items) {
+                            items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+                            itemCount = Array.isArray(items) ? items.length : 0;
+                            totalQty = Array.isArray(items) ? 
+                              items.reduce((sum, item) => sum + (parseInt(item.qty) || 1), 0) : 0;
+                          } else {
+                            items = [];
+                          }
+                        } catch (e) {
+                          console.error('Error parsing items:', e);
+                          items = [];
+                        }
+                      %>
+                      
+                      <span class="item-count"><%= itemCount %> item<%= itemCount === 1 ? '' : 's' %></span>
+                      <span class="item-qty">(<%= totalQty %> total)</span>
+                      
+                      <% if (itemCount > 0) { %>
+                        <div class="items-dropdown">
+                          <button class="dropdown-toggle" onclick="toggleItems(<%= index %>)">
+                            View Details ▼
+                          </button>
+                          <div class="dropdown-content" id="items-<%= index %>">
+                            <% items.forEach(item => { %>
+                              <div class="item-detail">
+                                <span class="item-name"><%= item.name || 'Unknown Item' %></span>
+                                <span class="item-qty">× <%= parseInt(item.qty) || 1 %></span>
+                              </div>
+                            <% }); %>
+                          </div>
+                        </div>
+                      <% } else { %>
+                        <span class="no-items">No item details</span>
+                      <% } %>
+                    </div>
+                  </td>
+                  
+                  <td class="amount">
+                    <span class="amount-value">₹<%= parseFloat(order.total_amount || 0).toFixed(2) %></span>
+                  </td>
+                  
+                  <td class="payment-method">
+                    <span class="payment-badge <%= (order.payment_method || 'unknown').toLowerCase() %>">
+                      <% if (order.payment_method === 'UPI') { %>
+                        📱
+                      <% } else if (order.payment_method === 'COD' || order.payment_method === 'Cash') { %>
+                        💵
+                      <% } else { %>
+                        💳
+                      <% } %>
+                      <%= order.payment_method || 'Unknown' %>
+                    </span>
+                  </td>
+                  
+                  <td class="status">
+                    <span class="status-badge <%= order.status || 'unknown' %>">
+                      <% if (order.status === 'pending') { %>
+                        ⏳ Pending
+                      <% } else if (order.status === 'preparing') { %>
+                        👨‍🍳 Preparing
+                      <% } else if (order.status === 'complete') { %>
+                        ✅ Complete
+                      <% } else if (order.status === 'cancelled') { %>
+                        ❌ Cancelled
+                      <% } else { %>
+                        ❓ <%= (order.status || 'Unknown').charAt(0).toUpperCase() + (order.status || 'unknown').slice(1) %>
+                      <% } %>
+                    </span>
+                  </td>
+                  
+                  <td class="datetime">
+                    <div class="datetime-info">
+                      <% 
+                        const orderDate = new Date(order.created_at);
+                        const isValidDate = !isNaN(orderDate.getTime());
+                      %>
+                      <% if (isValidDate) { %>
+                        <span class="date"><%= orderDate.toLocaleDateString('en-IN') %></span>
+                        <span class="time"><%= orderDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) %></span>
+                      <% } else { %>
+                        <span class="date">Invalid Date</span>
+                        <span class="time">--:--</span>
+                      <% } %>
+                    </div>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order Summary at Bottom -->
+        <div class="table-footer">
+          <div class="summary-info">
+            <span class="summary-text">
+              Showing <%= orders.length %> order<%= orders.length === 1 ? '' : 's' %>
+              <% if (locals.statistics && statistics.total > orders.length) { %>
+                (Limited to 1000 results)
+              <% } %>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <h3>No Orders Found</h3>
+        <p>No orders match your selected criteria. Try adjusting your filters to see more results.</p>
+        <a href="/input-status" class="retry-btn">
+          <span class="btn-icon">🔍</span>
+          <span class="btn-text">Try Different Filters</span>
+        </a>
+      </div>
+    <% } %>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <form action="/home" method="POST" class="nav-form">
+        <button type="submit" class="nav-btn dashboard-btn">
+          <span class="btn-icon">🏠</span>
+          <span class="btn-text">Back to Dashboard</span>
+        </button>
+      </form>
+      
+      <a href="/input-status" class="nav-btn filter-btn">
+        <span class="btn-icon">🔍</span>
+        <span class="btn-text">New Search</span>
+      </a>
+      
+      <a href="/manager-orders" class="nav-btn live-btn">
+        <span class="btn-icon">👁️</span>
+        <span class="btn-text">Live Orders</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Scan2Dine | Order Management System</p>
+  </footer>
+
+  <script>
+    // Table functionality
+    let currentSortColumn = -1;
+    let sortDirection = 'asc';
+
+    // Toggle items dropdown
+    function toggleItems(index) {
+      const dropdown = document.getElementById(`items-${index}`);
+      if (!dropdown) return;
+      
+      const button = dropdown.previousElementSibling;
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.dropdown-content').forEach((content, i) => {
+        if (content !== dropdown && content.classList.contains('show')) {
+          content.classList.remove('show');
+          const btn = content.previousElementSibling;
+          if (btn) {
+            btn.textContent = btn.textContent.replace('▲', '▼');
+          }
+        }
+      });
+      
+      // Toggle current dropdown
+      dropdown.classList.toggle('show');
+      if (button) {
+        if (dropdown.classList.contains('show')) {
+          button.textContent = button.textContent.replace('▼', '▲');
+        } else {
+          button.textContent = button.textContent.replace('▲', '▼');
+        }
+      }
+    }
+
+    // Sort table functionality
+    function sortTable(columnIndex) {
+      const table = document.getElementById('ordersTable');
+      if (!table) return;
+      
+      const tbody = table.getElementsByTagName('tbody')[0];
+      const rows = Array.from(tbody.getElementsByTagName('tr'));
+      
+      // Determine sort direction
+      if (currentSortColumn === columnIndex) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortDirection = 'asc';
+        currentSortColumn = columnIndex;
+      }
+      
+      // Update sort icons
+      document.querySelectorAll('.sort-icon').forEach(icon => {
+        icon.textContent = '↕️';
+      });
+      
+      const currentIcon = document.querySelectorAll('th')[columnIndex]?.querySelector('.sort-icon');
+      if (currentIcon) {
+        currentIcon.textContent = sortDirection === 'asc' ? '↑' : '↓';
+      }
+      
+      // Sort rows
+      rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex]?.textContent.trim() || '';
+        let bValue = b.cells[columnIndex]?.textContent.trim() || '';
+        
+        // Handle different data types
+        if (columnIndex === 0) { // Order ID
+          aValue = parseInt(aValue.replace('#', '')) || 0;
+          bValue = parseInt(bValue.replace('#', '')) || 0;
+        } else if (columnIndex === 3) { // Amount
+          aValue = parseFloat(aValue.replace('₹', '')) || 0;
+          bValue = parseFloat(bValue.replace('₹', '')) || 0;
+        } else if (columnIndex === 6) { // Date
+          const dateA = a.cells[columnIndex]?.querySelector('.date')?.textContent || '';
+          const timeA = a.cells[columnIndex]?.querySelector('.time')?.textContent || '';
+          const dateB = b.cells[columnIndex]?.querySelector('.date')?.textContent || '';
+          const timeB = b.cells[columnIndex]?.querySelector('.time')?.textContent || '';
+          
+          aValue = new Date(dateA + ' ' + timeA);
+          bValue = new Date(dateB + ' ' + timeB);
+          
+          if (isNaN(aValue.getTime())) aValue = new Date(0);
+          if (isNaN(bValue.getTime())) bValue = new Date(0);
+        }
+        
+        if (typeof aValue === 'number' || aValue instanceof Date) {
+          return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+        } else {
+          return sortDirection === 'asc' ? 
+            aValue.localeCompare(bValue) : 
+            bValue.localeCompare(aValue);
+        }
+      });
+      
+      // Re-append sorted rows
+      rows.forEach(row => tbody.appendChild(row));
+      
+      // Add animation
+      rows.forEach((row, index) => {
+        row.style.animation = `fadeInUp 0.3s ease-out ${index * 0.05}s both`;
+      });
+    }
+
+    // Print functionality
+    function printTable() {
+      const printWindow = window.open('', '_blank');
+      const tableHTML = document.querySelector('.orders-section')?.innerHTML || '';
+      const statsHTML = document.querySelector('.statistics-dashboard')?.innerHTML || '';
+      const filtersHTML = document.querySelector('.filter-summary')?.innerHTML || '';
+      const hotelName = document.querySelector('.header h2')?.textContent || 'Restaurant';
+      
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Order History - ${hotelName}</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              th { background-color: #f5f5f5; font-weight: bold; }
+              .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 20px 0; }
+              .stat-card { border: 1px solid #ddd; padding: 10px; text-align: center; }
+              .filter-tags { margin: 10px 0; }
+              .filter-tag { display: inline-block; margin: 5px; padding: 5px 10px; background: #f0f0f0; border-radius: 5px; }
+              .dropdown-content { display: block !important; visibility: visible !important; position: static !important; background: #f9f9f9; border: 1px solid #ddd; margin-top: 5px; }
+              .table-actions { display: none; }
+              .section-header { border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px; }
+              @media print { .no-print { display: none; } }
+            </style>
+          </head>
+          <body>
+            <h1>Order History Report</h1>
+            <h2>${hotelName}</h2>
+            <div class="statistics">${statsHTML}</div>
+            <div class="filters">${filtersHTML}</div>
+            <div class="orders">${tableHTML}</div>
+            <p><em>Generated on: ${new Date().toLocaleString()}</em></p>
+          </body>
+        </html>
+      `);
+      
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+
+    // Export CSV functionality
+    function exportCSV() {
+      const table = document.getElementById('ordersTable');
+      if (!table) return;
+      
+      const rows = Array.from(table.querySelectorAll('tr'));
+      let csv = '';
+      
+      rows.forEach(row => {
+        const cols = Array.from(row.querySelectorAll('th, td'));
+        const rowData = cols.map(col => {
+          let text = col.textContent.trim();
+          // Clean up the data
+          text = text.replace(/\s+/g, ' '); // Replace multiple spaces
+          text = text.replace(/[↕️↑↓▼▲]/g, ''); // Remove sort icons
+          text = text.replace(/"/g, '""'); // Escape quotes
+          return `"${text}"`;
+        });
+        csv += rowData.join(',') + '\n';
+      });
+      
+      // Create and download file
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `order_history_${new Date().getTime()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.items-summary')) {
+        document.querySelectorAll('.dropdown-content.show').forEach(dropdown => {
+          dropdown.classList.remove('show');
+          const button = dropdown.previousElementSibling;
+          if (button) {
+            button.textContent = button.textContent.replace('▲', '▼');
+          }
+        });
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Ctrl/Cmd + P for print
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        printTable();
+      }
+      
+      // Ctrl/Cmd + E for export
+      if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+        e.preventDefault();
+        exportCSV();
+      }
+    });
+
+    // Add loading animation to page
+    document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('.order-row');
+      rows.forEach((row, index) => {
+        row.style.opacity = '0';
+        row.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          row.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          row.style.opacity = '1';
+          row.style.transform = 'translateY(0)';
+        }, index * 50);
+      });
+    });
+
+    // Auto-refresh functionality (optional)
+    let autoRefreshInterval;
+    
+    function startAutoRefresh() {
+      autoRefreshInterval = setInterval(() => {
+        if (confirm('Refresh data to get latest order updates?')) {
+          location.reload();
+        }
+      }, 300000); // 5 minutes
+    }
+    
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+      }
+    }
+    
+    // Start auto-refresh only if there are active orders (pending/preparing)
+    const hasActiveOrders = document.querySelectorAll('.status-badge.pending, .status-badge.preparing').length > 0;
+    if (hasActiveOrders) {
+      startAutoRefresh();
+    }
+    
+    // Stop auto-refresh when page is hidden
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        stopAutoRefresh();
+      } else if (hasActiveOrders) {
+        startAutoRefresh();
+      }
+    });
+  </script>
+</body>
+</html>

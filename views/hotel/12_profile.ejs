@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel Profile – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/12_profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Top bar with Edit button -->
+    <div class="top-bar">
+      <form action="/edit-profile" method="get" style="text-align: right;">
+        <button type="submit" class="edit-btn">Edit Profile</button>
+      </form>
+    </div>
+
+    <h2>Hotel Profile</h2>
+
+    <% if (locals.message) { %>
+      <p class="message"><%= message %></p>
+    <% } %>
+
+    <% if (locals.hotel) { %>
+      <div class="hotel-info">
+        <p><strong>Hotel Name:</strong> <%= hotel.name %></p>
+        <p><strong>Address:</strong> <%= hotel.address %></p>
+        <p><strong>Phone Number:</strong> <%= hotel.contact_number || 'N/A' %></p>
+        <p><strong>Email:</strong> <%= hotel.email || 'N/A' %></p>
+        <p><strong>Food Type:</strong> <%= hotel.type  %></p>
+        <p><strong>Description:</strong> <%= hotel.description || 'N/A' %></p>
+        <p><strong>Registered On:</strong> <%= new Date(hotel.created_at).toLocaleDateString() %></p>
+      </div>
+    <% } else { %>
+      <p>No hotel details found. Please click “Edit Profile” to add details.</p>
+    <% } %>
+
+    <form action="/home" method="post">
+      <button class="back-btn">← Back to Dashboard</button>
+    </form>
+
+  </div>
+</body>
+</html>

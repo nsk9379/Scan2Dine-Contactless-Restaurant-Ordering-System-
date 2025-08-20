@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Profile – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/13_editProfile.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <h2>Edit Hotel Profile</h2>
+
+  <% if (locals.message) { %>
+    <p><%= message %></p>
+  <% } %>
+
+  <form action="/save-profile" method="POST">
+    <label>Hotel Name *</label><br>
+    <input type="text" name="name" required value="<%= hotel ? hotel.name : '' %>"><br><br>
+
+    <label>Address *</label><br>
+    <textarea name="address" required><%= hotel ? hotel.address : '' %></textarea><br><br>
+
+    <label>Type *</label><br>
+    <select name="type" required>
+  <option value="">Select type</option>
+  <option value="Veg" <%= hotel && hotel.type === 'Veg' ? 'selected' : '' %>>Veg</option>
+  <option value="Omnivore" <%= hotel && hotel.type === 'Omnivore' ? 'selected' : '' %>>Omnivore</option>
+</select>
+
+    <label>Contact Number</label><br>
+    <input type="text" name="contact_number" value="<%= hotel ? hotel.contact_number : '' %>"><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email" value="<%= hotel ? hotel.email : '' %>"><br><br>
+
+    <label>Description</label><br>
+    <textarea name="description"><%= hotel ? hotel.description : '' %></textarea><br><br>
+
+    <button type="submit">Save Details</button>
+  </form>
+
+  <form action="/display-profile" method="GET">
+    <button type="submit">← Back to Profile</button>
+  </form>
+
+</body>
+</html>

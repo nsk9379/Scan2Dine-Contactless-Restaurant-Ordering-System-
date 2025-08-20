@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History Filter – Scan2Dine</title>
+  <link rel="stylesheet" href="/css/22_inputstatus.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📋 Order History</h1>
+      <p>Filter orders by status to view detailed history and analytics</p>
+    </div>
+
+    <!-- Error/Success Message Display -->
+    <% if (locals.message) { %>
+      <div class="message <%= locals.messageType || 'info' %>">
+        <span class="message-icon">
+          <% if (locals.messageType === 'error') { %>
+            ❌
+          <% } else if (locals.messageType === 'success') { %>
+            ✅
+          <% } else { %>
+            ℹ️
+          <% } %>
+        </span>
+        <%= message %>
+      </div>
+    <% } %>
+
+    <!-- Status Filter Form -->
+    <div class="form-container">
+      <form action="/filter-history" method="POST" id="statusForm">
+        <div class="form-header">
+          <h2>Select Order Status</h2>
+          <p>Choose a status to view all orders with that status</p>
+        </div>
+
+        <div class="status-options">
+          <div class="status-card">
+            <input type="radio" id="pending" name="status" value="pending" required>
+            <label for="pending" class="status-label pending">
+              <div class="status-icon">⏳</div>
+              <div class="status-info">
+                <h3>Pending Orders</h3>
+                <p>Recently placed orders awaiting preparation</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="status-card">
+            <input type="radio" id="preparing" name="status" value="preparing" required>
+            <label for="preparing" class="status-label preparing">
+              <div class="status-icon">👨‍🍳</div>
+              <div class="status-info">
+                <h3>Preparing Orders</h3>
+                <p>Orders currently being prepared in kitchen</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="status-card">
+            <input type="radio" id="complete" name="status" value="complete" required>
+            <label for="complete" class="status-label complete">
+              <div class="status-icon">✅</div>
+              <div class="status-info">
+                <h3>Completed Orders</h3>
+                <p>Successfully completed and delivered orders</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="status-card">
+            <input type="radio" id="cancelled" name="status" value="cancelled" required>
+            <label for="cancelled" class="status-label cancelled">
+              <div class="status-icon">❌</div>
+              <div class="status-info">
+                <h3>Cancelled Orders</h3>
+                <p>Orders that were cancelled or failed</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="status-card">
+            <input type="radio" id="all" name="status" value="all" required>
+            <label for="all" class="status-label all">
+              <div class="status-icon">📊</div>
+              <div class="status-info">
+                <h3>All Orders</h3>
+                <p>Complete order history regardless of status</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Additional Filters (Optional) -->
+        <div class="additional-filters">
+          <h3>Additional Filters (Optional)</h3>
+          
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="dateFrom">From Date:</label>
+              <input type="date" id="dateFrom" name="dateFrom" class="date-input">
+            </div>
+            
+            <div class="filter-group">
+              <label for="dateTo">To Date:</label>
+              <input type="date" id="dateTo" name="dateTo" class="date-input">
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="tableNo">Specific Table:</label>
+              <input type="text" id="tableNo" name="tableNo" placeholder="Enter table number" class="table-input">
+            </div>
+            
+            <div class="filter-group">
+              <label for="minAmount">Min Amount (₹):</label>
+              <input type="number" id="minAmount" name="minAmount" min="0" step="0.01" placeholder="0.00" class="amount-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span class="btn-text">View Order History</span>
+            <span class="btn-icon">🔍</span>
+          </button>
+          
+          <button type="reset" class="reset-btn" id="resetBtn">
+            <span class="btn-text">Clear Filters</span>
+            <span class="btn-icon">🔄</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Quick Stats Preview (if available) -->
+    <% if (locals.quickStats) { %>
+      <div class="quick-stats">
+        <h3>Quick Overview</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number"><%= quickStats.pending || 0 %></span>
+            <span class="stat-label">Pending</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number"><%= quickStats.preparing || 0 %></span>
+            <span class="stat-label">Preparing</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number"><%= quickStats.complete || 0 %></span>
+            <span class="stat-label">Complete</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number"><%= quickStats.cancelled || 0 %></span>
+            <span class="stat-label">Cancelled</span>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      <form action="/home" method="POST" class="nav-form">
+        <button type="submit" class="dashboard-btn">
+          <span class="btn-icon">🏠</span>
+          <span class="btn-text">Back to Dashboard</span>
+        </button>
+      </form>
+      
+      <a href="/manager-orders" class="quick-link">
+        <span class="btn-icon">👁️</span>
+        <span class="btn-text">Live Orders</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading order history...</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Scan2Dine | Order Management System</p>
+  </footer>
+
+  <script>
+    // Form validation and enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('statusForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const statusInputs = document.querySelectorAll('input[name="status"]');
+      const dateFromInput = document.getElementById('dateFrom');
+      const dateToInput = document.getElementById('dateTo');
+      const tableNoInput = document.getElementById('tableNo');
+      const minAmountInput = document.getElementById('minAmount');
+
+      // Set max date to today for date inputs
+      const today = new Date().toISOString().split('T')[0];
+      dateFromInput.setAttribute('max', today);
+      dateToInput.setAttribute('max', today);
+
+      // Form submission handling
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate form
+        if (!validateForm()) {
+          return;
+        }
+
+        // Show loading
+        showLoading();
+        
+        // Submit form after validation
+        setTimeout(() => {
+          form.submit();
+        }, 500);
+      });
+
+      // Reset form handling
+      resetBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Clear all inputs
+        statusInputs.forEach(input => input.checked = false);
+        dateFromInput.value = '';
+        dateToInput.value = '';
+        tableNoInput.value = '';
+        minAmountInput.value = '';
+        
+        // Remove validation classes
+        clearValidationStyles();
+        
+        // Focus first radio button
+        statusInputs[0].focus();
+      });
+
+      // Date validation
+      dateFromInput.addEventListener('change', function() {
+        if (dateToInput.value && this.value > dateToInput.value) {
+          showError('From date cannot be later than To date');
+          this.value = '';
+        }
+      });
+
+      dateToInput.addEventListener('change', function() {
+        if (dateFromInput.value && this.value < dateFromInput.value) {
+          showError('To date cannot be earlier than From date');
+          this.value = '';
+        }
+      });
+
+      // Table number validation
+      tableNoInput.addEventListener('input', function() {
+        // Remove non-alphanumeric characters
+        this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        
+        // Limit length
+        if (this.value.length > 10) {
+          this.value = this.value.substring(0, 10);
+        }
+      });
+
+      // Amount validation
+      minAmountInput.addEventListener('input', function() {
+        if (this.value < 0) {
+          this.value = 0;
+        }
+        if (this.value > 100000) {
+          this.value = 100000;
+        }
+      });
+
+      // Status selection enhancement
+      statusInputs.forEach(input => {
+        input.addEventListener('change', function() {
+          // Remove active class from all labels
+          document.querySelectorAll('.status-label').forEach(label => {
+            label.classList.remove('selected');
+          });
+          
+          // Add active class to selected label
+          if (this.checked) {
+            this.closest('.status-card').querySelector('.status-label').classList.add('selected');
+          }
+        });
+      });
+
+      function validateForm() {
+        let isValid = true;
+        clearValidationStyles();
+
+        // Check if status is selected
+        const selectedStatus = document.querySelector('input[name="status"]:checked');
+        if (!selectedStatus) {
+          showError('Please select an order status');
+          highlightErrorField('status');
+          isValid = false;
+        }
+
+        // Validate date range
+        const fromDate = dateFromInput.value;
+        const toDate = dateToInput.value;
+        
+        if (fromDate && toDate && fromDate > toDate) {
+          showError('From date cannot be later than To date');
+          highlightErrorField('dateFrom');
+          highlightErrorField('dateTo');
+          isValid = false;
+        }
+
+        // Validate table number format
+        const tableNo = tableNoInput.value.trim();
+        if (tableNo && !/^[a-zA-Z0-9]{1,10}$/.test(tableNo)) {
+          showError('Table number should be alphanumeric and max 10 characters');
+          highlightErrorField('tableNo');
+          isValid = false;
+        }
+
+        // Validate amount
+        const minAmount = parseFloat(minAmountInput.value);
+        if (minAmountInput.value && (isNaN(minAmount) || minAmount < 0 || minAmount > 100000)) {
+          showError('Amount should be between 0 and 100,000');
+          highlightErrorField('minAmount');
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      function showError(message) {
+        // Create or update error message
+        let errorDiv = document.querySelector('.validation-error');
+        if (!errorDiv) {
+          errorDiv = document.createElement('div');
+          errorDiv.className = 'validation-error message error';
+          form.insertBefore(errorDiv, form.firstChild);
+        }
+        errorDiv.innerHTML = `<span class="message-icon">❌</span>${message}`;
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+          if (errorDiv.parentNode) {
+            errorDiv.remove();
+          }
+        }, 5000);
+      }
+
+      function highlightErrorField(fieldName) {
+        const field = document.getElementById(fieldName) || document.querySelector(`input[name="${fieldName}"]`);
+        if (field) {
+          field.classList.add('error');
+          setTimeout(() => field.classList.remove('error'), 3000);
+        }
+      }
+
+      function clearValidationStyles() {
+        document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        const errorDiv = document.querySelector('.validation-error');
+        if (errorDiv) {
+          errorDiv.remove();
+        }
+      }
+
+      function showLoading() {
+        loadingOverlay.style.display = 'flex';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="btn-text">Loading...</span><span class="spinner-small"></span>';
+      }
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + Enter to submit
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit'));
+        }
+        
+        // Escape to reset
+        if (e.key === 'Escape') {
+          resetBtn.click();
+        }
+        
+        // Number keys for quick status selection
+        if (e.key >= '1' && e.key <= '5') {
+          const index = parseInt(e.key) - 1;
+          if (statusInputs[index]) {
+            statusInputs[index].checked = true;
+            statusInputs[index].dispatchEvent(new Event('change'));
+          }
+        }
+      });
+
+      // Auto-save form state to localStorage
+      function saveFormState() {
+        const formData = new FormData(form);
+        const state = {};
+        for (let [key, value] of formData.entries()) {
+          state[key] = value;
+        }
+        localStorage.setItem('orderHistoryForm', JSON.stringify(state));
+      }
+
+      function loadFormState() {
+        const savedState = localStorage.getItem('orderHistoryForm');
+        if (savedState) {
+          try {
+            const state = JSON.parse(savedState);
+            Object.keys(state).forEach(key => {
+              const field = document.querySelector(`[name="${key}"]`);
+              if (field) {
+                if (field.type === 'radio') {
+                  if (field.value === state[key]) {
+                    field.checked = true;
+                    field.dispatchEvent(new Event('change'));
+                  }
+                } else {
+                  field.value = state[key];
+                }
+              }
+            });
+          } catch (e) {
+            console.error('Error loading form state:', e);
+          }
+        }
+      }
+
+      // Load saved state on page load
+      loadFormState();
+
+      // Save state on form changes
+      form.addEventListener('change', saveFormState);
+      form.addEventListener('input', saveFormState);
+    });
+  </script>
+</body>
+</html>
