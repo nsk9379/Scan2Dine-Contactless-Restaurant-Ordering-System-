@@ -1,0 +1,120 @@
+/* ===========================
+   Scan2Dine Register Page
+   Theme: Warm Orange + Fresh Green
+   =========================== */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F8F9FA; /* neutral light gray */
+  color: #333333; /* dark gray text */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  background: #FFFFFF;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  color: #2E7D32; /* fresh green */
+  font-weight: 700;
+}
+
+.alert {
+  background: #FFD54F; /* golden yellow accent */
+  color: #333333;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+label {
+  text-align: left;
+  font-weight: 600;
+  color: #333333;
+}
+
+input[type="email"] {
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: 1.5px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+input[type="email"]:focus {
+  border-color: #FF6B35; /* warm orange focus */
+  box-shadow: 0 0 0 3px rgba(255,107,53,0.2);
+}
+
+button {
+  background: #FF6B35; /* primary orange */
+  color: #fff;
+  font-weight: 600;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #e65b2d; /* darker orange */
+}
+
+p {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #333333;
+}
+
+a {
+  color: #2E7D32; /* green links */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =======================
+   Mobile Responsiveness
+   ======================= */
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    margin: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  input[type="email"],
+  button {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+}

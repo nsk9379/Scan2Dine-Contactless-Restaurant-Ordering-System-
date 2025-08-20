@@ -1,0 +1,702 @@
+/* 17_cart.css - Modern Shopping Cart Styles with Add More Food Button */
+
+:root {
+  /* Food-Themed Color Palette */
+  --primary-orange: #ff6b35;
+  --warm-yellow: #ffa500;
+  --fresh-green: #4caf50;
+  --dark-green: #2e7d32;
+  --royal-blue: #3498db;
+  --deep-blue: #2980b9;
+  --cart-red: #e74c3c;
+  --cart-dark: #c0392b;
+  --add-more-purple: #9b59b6;
+  --add-more-dark: #8e44ad;
+  --cream-white: #fefefe;
+  --soft-white: #f9f9f9;
+  --light-gray: #f5f5f5;
+  --text-dark: #2c2c2c;
+  --text-light: #666666;
+  --text-medium: #555555;
+  --border-color: #e0e0e0;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.15);
+  --border-radius: 15px;
+  --transition: all 0.3s ease;
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #ffecd2 75%, #fcb69f 100%);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="cartPattern" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M10,15 L40,15 L40,35 L10,35 Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" rx="3"/><circle cx="15" cy="25" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="35" cy="25" r="2" fill="rgba(255,255,255,0.08)"/><path d="M12,12 L38,12 M15,20 L35,20 M18,28 L32,28" stroke="rgba(255,255,255,0.06)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23cartPattern)"/></svg>');
+  pointer-events: none;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+h2::after {
+  content: '🛒';
+  margin-left: 0.5rem;
+  font-size: 2.5rem;
+}
+
+/* Empty cart styling */
+body > p {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--text-medium);
+  padding: 3rem 2rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+body > p::before {
+  content: '🛒';
+  display: block;
+  font-size: 4rem;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+
+/* Back to menu link for empty cart */
+body > a {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  width: fit-content;
+  background: linear-gradient(135deg, var(--primary-orange), var(--warm-yellow));
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  z-index: 1;
+}
+
+body > a:hover {
+  background: linear-gradient(135deg, var(--warm-yellow), var(--primary-orange));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+}
+
+body > a::before {
+  content: '← ';
+  margin-right: 0.3rem;
+}
+
+/* Cart table container */
+form:first-of-type {
+  background: var(--cream-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+form:first-of-type::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--cart-red), var(--primary-orange), var(--warm-yellow));
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+}
+
+th {
+  background: linear-gradient(135deg, var(--text-dark), var(--text-medium));
+  color: white;
+  padding: 1.2rem 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: left;
+  border: none;
+}
+
+th:first-child { border-radius: 10px 0 0 0; }
+th:last-child { border-radius: 0 10px 0 0; }
+
+td {
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+  color: var(--text-dark);
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:nth-child(even) {
+  background: rgba(255, 107, 53, 0.02);
+}
+
+tr:hover {
+  background: rgba(255, 107, 53, 0.05);
+  transform: translateX(2px);
+  transition: var(--transition);
+}
+
+/* Item name styling */
+td:first-child {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+td:first-child::before {
+  content: '🍽️ ';
+  margin-right: 0.3rem;
+  opacity: 0.7;
+}
+
+/* Quantity input styling */
+td:nth-child(2) input[type="number"] {
+  width: 80px;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+td:nth-child(2) input[type="number"]:focus {
+  outline: none;
+  border-color: var(--cart-red);
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+/* Remove spinner arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Price styling */
+td:nth-child(3) {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--fresh-green);
+}
+
+td:nth-child(3)::before {
+  content: '₹ ';
+  font-weight: 600;
+}
+
+/* Remove checkbox styling */
+td:nth-child(4) {
+  text-align: center;
+}
+
+td:nth-child(4) input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--cart-red);
+}
+
+/* Update cart button */
+form:first-of-type button {
+  background: linear-gradient(135deg, var(--royal-blue), var(--deep-blue));
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+form:first-of-type button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+form:first-of-type button:hover::before {
+  left: 100%;
+}
+
+form:first-of-type button:hover {
+  background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+}
+
+form:first-of-type button::after {
+  content: ' 🔄';
+  margin-left: 0.3rem;
+}
+
+/* Action buttons container */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* Add more food button */
+form[action="/add-again"] {
+  display: inline-block;
+}
+
+form[action="/add-again"] button {
+  background: linear-gradient(135deg, var(--add-more-purple), var(--add-more-dark));
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+form[action="/add-again"] button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+form[action="/add-again"] button:hover::before {
+  left: 100%;
+}
+
+form[action="/add-again"] button:hover {
+  background: linear-gradient(135deg, var(--add-more-dark), var(--add-more-purple));
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(155, 89, 182, 0.4);
+}
+
+form[action="/add-again"] button::after {
+  content: ' 🍽️';
+  margin-left: 0.5rem;
+  font-size: 1.3rem;
+}
+
+/* Proceed to payment button */
+form[action="/checkout"] {
+  display: inline-block;
+}
+
+form[action="/checkout"] button {
+  background: linear-gradient(135deg, var(--cart-red), var(--cart-dark));
+  color: white;
+  border: none;
+  padding: 1.5rem 3rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  position: relative;
+  overflow: hidden;
+  animation: payment-pulse 3s infinite;
+}
+
+@keyframes payment-pulse {
+  0%, 100% { 
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 12px 35px rgba(231, 76, 60, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+form[action="/checkout"] button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+form[action="/checkout"] button:hover::before {
+  left: 100%;
+}
+
+form[action="/checkout"] button:hover {
+  background: linear-gradient(135deg, var(--cart-dark), var(--cart-red));
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(231, 76, 60, 0.5);
+}
+
+form[action="/checkout"] button::after {
+  content: ' 💳';
+  margin-left: 0.5rem;
+  font-size: 1.4rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 0.8rem;
+  }
+  
+  h2 {
+    font-size: 2.2rem;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  h2::after {
+    font-size: 2rem;
+  }
+  
+  form:first-of-type {
+    padding: 1.5rem 1rem;
+    overflow-x: auto;
+  }
+  
+  table {
+    min-width: 500px;
+  }
+  
+  th, td {
+    padding: 1rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  th {
+    font-size: 1rem;
+  }
+  
+  td:first-child {
+    font-size: 1rem;
+  }
+  
+  td:nth-child(2) input[type="number"] {
+    width: 70px;
+    padding: 0.5rem 0.6rem;
+  }
+  
+  td:nth-child(3) {
+    font-size: 1.1rem;
+  }
+  
+  form:first-of-type button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  form[action="/add-again"] button,
+  form[action="/checkout"] button {
+    width: 100%;
+    max-width: 350px;
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+  }
+  
+  form[action="/checkout"] button {
+    padding: 1.3rem 2.2rem;
+    font-size: 1.2rem;
+  }
+  
+  body > p {
+    padding: 2.5rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  body > a {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    padding: 1rem 1.2rem;
+  }
+  
+  h2::after {
+    font-size: 1.8rem;
+  }
+  
+  form:first-of-type {
+    padding: 1.2rem 0.8rem;
+  }
+  
+  table {
+    min-width: 450px;
+  }
+  
+  th, td {
+    padding: 0.8rem 0.6rem;
+    font-size: 0.9rem;
+  }
+  
+  td:first-child {
+    font-size: 0.95rem;
+  }
+  
+  td:nth-child(2) input[type="number"] {
+    width: 60px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  td:nth-child(3) {
+    font-size: 1rem;
+  }
+  
+  form:first-of-type button {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  form[action="/add-again"] button,
+  form[action="/checkout"] button {
+    padding: 1.1rem 1.8rem;
+    font-size: 1rem;
+  }
+  
+  form[action="/checkout"] button {
+    font-size: 1.1rem;
+  }
+  
+  body > p {
+    padding: 2rem 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  body > p::before {
+    font-size: 3rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h2 {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+body > p {
+  animation: slideInScale 0.6s ease-out 0.2s both;
+}
+
+body > a {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+form:first-of-type {
+  animation: slideInScale 0.6s ease-out 0.2s both;
+}
+
+.action-buttons {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+table tr {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+table tr:nth-child(1) { animation-delay: 0.3s; }
+table tr:nth-child(2) { animation-delay: 0.35s; }
+table tr:nth-child(3) { animation-delay: 0.4s; }
+table tr:nth-child(4) { animation-delay: 0.45s; }
+table tr:nth-child(5) { animation-delay: 0.5s; }
+table tr:nth-child(n+6) { animation-delay: 0.55s; }
+
+/* Focus and accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  table {
+    border: 2px solid var(--text-dark);
+  }
+  
+  th, td {
+    border: 1px solid var(--text-dark);
+  }
+}
+
+/* Loading states */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Group action buttons properly */
+body > form:nth-last-child(2),
+body > form:last-child {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+/* Create action buttons wrapper */
+body > form:nth-last-child(2) ~ form:last-child {
+  margin-top: 0;
+}
+
+/* Center the action buttons */
+body {
+  text-align: center;
+}
+
+body > form:first-of-type {
+  text-align: left;
+}

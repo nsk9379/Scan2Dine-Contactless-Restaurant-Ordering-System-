@@ -1,0 +1,510 @@
+/* 10_displayMenu.css - Modern Menu Display Styles */
+
+:root {
+  /* Food-Themed Color Palette */
+  --primary-orange: #ff6b35;
+  --warm-yellow: #ffa500;
+  --fresh-green: #4caf50;
+  --dark-green: #2e7d32;
+  --royal-blue: #3498db;
+  --deep-blue: #2980b9;
+  --cream-white: #fefefe;
+  --soft-white: #f9f9f9;
+  --light-gray: #f5f5f5;
+  --text-dark: #2c2c2c;
+  --text-light: #666666;
+  --text-medium: #555555;
+  --success-green: #27ae60;
+  --error-red: #e74c3c;
+  --warning-orange: #e67e22;
+  --border-color: #e0e0e0;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.15);
+  --border-radius: 15px;
+  --transition: all 0.3s ease;
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><defs><pattern id="menuPattern" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M20,20 L60,20 L60,60 L20,60 Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/><circle cx="40" cy="40" r="3" fill="rgba(255,255,255,0.06)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23menuPattern)"/></svg>');
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+h2::after {
+  content: '📋';
+  display: block;
+  font-size: 3rem;
+  margin-top: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Info message for empty menu */
+.info {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--text-medium);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--warning-orange);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background: var(--cream-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.placeholder {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, var(--light-gray), #e9ecef);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.placeholder::before {
+  content: '🍽️';
+  font-size: 3rem;
+  opacity: 0.3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+}
+
+.details {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.details h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.category {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--fresh-green), var(--dark-green));
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.8rem;
+  width: fit-content;
+}
+
+/* Category-specific colors */
+.category:contains("Starter") {
+  background: linear-gradient(135deg, var(--primary-orange), var(--warm-yellow));
+}
+
+.category:contains("Main Course") {
+  background: linear-gradient(135deg, var(--fresh-green), var(--dark-green));
+}
+
+.category:contains("Dessert") {
+  background: linear-gradient(135deg, #e91e63, #ad1457);
+}
+
+.category:contains("Drinks") {
+  background: linear-gradient(135deg, var(--royal-blue), var(--deep-blue));
+}
+
+.category:contains("Other") {
+  background: linear-gradient(135deg, var(--text-medium), var(--text-dark));
+}
+
+.description {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--fresh-green);
+  margin-bottom: 1rem;
+}
+
+.actions {
+  padding: 0 1.5rem 1.5rem;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.actions form {
+  flex: 1;
+}
+
+.actions button {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, var(--error-red), #c0392b);
+  color: white;
+  box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #c0392b, var(--error-red));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.update-btn {
+  background: linear-gradient(135deg, var(--royal-blue), var(--deep-blue));
+  color: white;
+  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+}
+
+.update-btn:hover {
+  background: linear-gradient(135deg, var(--deep-blue), var(--royal-blue));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+/* Back to dashboard button */
+.container > form:last-child {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-btn {
+  background: rgba(44, 44, 44, 0.9);
+  backdrop-filter: blur(15px);
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-btn:hover {
+  background: rgba(44, 44, 44, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Empty state styling */
+.menu-grid:empty::after {
+  content: "No menu items to display. Add some delicious items to get started! 🍽️";
+  display: block;
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem 0.8rem;
+  }
+  
+  h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  h2::after {
+    font-size: 2.5rem;
+  }
+  
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card img,
+  .placeholder {
+    height: 200px;
+  }
+  
+  .details {
+    padding: 1.2rem;
+  }
+  
+  .details h3 {
+    font-size: 1.25rem;
+  }
+  
+  .actions {
+    padding: 0 1.2rem 1.2rem;
+    flex-direction: column;
+  }
+  
+  .actions button {
+    padding: 0.9rem;
+    font-size: 0.95rem;
+  }
+  
+  .back-btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+  
+  h2 {
+    font-size: 1.9rem;
+  }
+  
+  h2::after {
+    font-size: 2.2rem;
+  }
+  
+  .menu-grid {
+    gap: 1.2rem;
+  }
+  
+  .card img,
+  .placeholder {
+    height: 180px;
+  }
+  
+  .details {
+    padding: 1rem;
+  }
+  
+  .details h3 {
+    font-size: 1.15rem;
+  }
+  
+  .category {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+  }
+  
+  .price {
+    font-size: 1.2rem;
+  }
+  
+  .actions {
+    padding: 0 1rem 1rem;
+  }
+  
+  .actions button {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h2 {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.info {
+  animation: slideInScale 0.6s ease-out 0.2s both;
+}
+
+.card {
+  animation: slideInScale 0.6s ease-out both;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+.card:nth-child(n+7) { animation-delay: 0.7s; }
+
+.back-btn {
+  animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+/* Focus and accessibility */
+button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid var(--text-dark);
+  }
+  
+  .actions button {
+    border: 2px solid white;
+  }
+}
+
+/* Loading states */
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Print styles */
+@media print {
+  body::before {
+    display: none;
+  }
+  
+  .actions {
+    display: none;
+  }
+  
+  .back-btn {
+    display: none;
+  }
+  
+  .card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}

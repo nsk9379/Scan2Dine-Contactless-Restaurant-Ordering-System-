@@ -1,0 +1,281 @@
+/* 2_about.css - Advanced Modern About Page Styles */
+
+:root {
+  /* Food & Hospitality Theme Palette */
+  --primary-orange: #ff6b35;
+  --warm-yellow: #ffb347;
+  --fresh-green: #4caf50;
+  --dark-green: #2e7d32;
+  --accent-blue: #2196f3;
+  --cream-white: #fffdf7;
+  --soft-white: #f9f9f9;
+  --light-gray: #f5f5f5;
+  --text-dark: #2b2b2b;
+  --text-medium: #555555;
+  --text-light: #767676;
+
+  /* Shadows */
+  --shadow-soft: 0 3px 8px rgba(0,0,0,0.08);
+  --shadow-medium: 0 6px 18px rgba(0,0,0,0.15);
+  --shadow-strong: 0 10px 30px rgba(0,0,0,0.25);
+
+  /* Common */
+  --border-radius: 14px;
+  --transition: all 0.35s ease;
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, var(--cream-white), #fff8f0);
+  color: var(--text-dark);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Title */
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--text-dark);
+  background: linear-gradient(90deg, var(--primary-orange), var(--warm-yellow));
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+h1 span {
+  font-weight: 900;
+}
+
+/* Section Headings */
+h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 2.8rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--primary-orange);
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  flex: 1;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-orange), transparent);
+  margin-left: 0.8rem;
+  border-radius: 2px;
+}
+
+/* Paragraph */
+p {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-bottom: 1.6rem;
+}
+
+p strong {
+  color: var(--text-dark);
+}
+
+/* Feature Lists */
+ul {
+  list-style: none;
+  margin: 1.5rem 0 2.5rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-orange), var(--warm-yellow));
+  animation: shimmer 4s linear infinite;
+}
+
+li {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text-medium);
+  margin: 1rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+  transition: var(--transition);
+}
+
+li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: var(--fresh-green);
+  font-weight: bold;
+}
+
+li:hover {
+  color: var(--text-dark);
+  transform: translateX(6px);
+}
+
+/* Divider */
+hr {
+  border: none;
+  height: 3px;
+  margin: 3rem 0;
+  background: linear-gradient(90deg, var(--warm-yellow), var(--primary-orange));
+  border-radius: 3px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: linear-gradient(135deg, var(--primary-orange), var(--warm-yellow));
+  color: #fff;
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: var(--shadow-medium);
+  text-transform: uppercase;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-strong);
+}
+
+button.secondary {
+  background: linear-gradient(135deg, var(--fresh-green), var(--dark-green));
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.25);
+}
+
+button.secondary:hover {
+  background: linear-gradient(135deg, var(--dark-green), var(--fresh-green));
+}
+
+/* Footer */
+footer {
+  background: var(--text-dark);
+  color: var(--cream-white);
+  text-align: center;
+  padding: 2rem;
+}
+
+footer p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 2rem 1.5rem; }
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.5rem; }
+  p { font-size: 1.1rem; }
+  li { font-size: 1.05rem; }
+  button { width: 100%; max-width: 300px; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 1.5rem 1rem; }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.3rem; }
+  p { font-size: 1rem; }
+  li { font-size: 1rem; }
+  button { font-size: 1rem; padding: 1rem 2rem; }
+}
+
+/* Accessibility */
+button:focus-visible {
+  outline: 3px solid var(--warm-yellow);
+  outline-offset: 3px;
+}
+
+/* Body */
+body {
+  font-family: var(--font-primary);
+  background: linear-gradient(135deg, var(--cream-white), #fff8f0);
+  color: var(--text-dark);
+  line-height: 1.7;
+  min-height: 100vh;
+
+  /* NEW: Flexbox centering */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper for centering */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;   /* Horizontal center */
+  align-items: center;       /* Vertical center */
+  padding: 2rem;             /* Prevent content from sticking to edges */
+}
+
+/* Container */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.8s ease-out;
+}
+

@@ -1,0 +1,177 @@
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Container (NO outer box/card) ===== */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ===== Heading ===== */
+.container h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+
+.container h1 span {
+  color: #ff6f61;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ===== Image ===== */
+.container img {
+  width: 100%;
+  max-width: 750px;
+  border-radius: 16px;
+  margin: 1.8rem 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* ===== Text ===== */
+.container p {
+  font-size: 1.15rem;
+  margin-bottom: 1.2rem;
+  color: #555;
+}
+
+/* ===== List ===== */
+.container ul {
+  list-style: none;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+.container ul li {
+  font-size: 1rem;
+  margin: 0.6rem 0;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  border-left: 5px solid #ff6f61;
+  border-radius: 10px;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
+.container ul li:hover {
+  background: #fff3f1;
+}
+
+/* ===== Button ===== */
+.container button {
+  background: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(255,111,97,0.3);
+}
+
+.container button:hover {
+  background: #e85b4f;
+  transform: translateY(-2px);
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 1.2rem;
+  margin-top: auto;
+  font-size: 0.9rem;
+  background: #222;
+  color: #fff;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive Design ---------- */
+
+/* Laptop & above */
+@media (min-width: 769px) {
+  .container h1 {
+    font-size: 2.8rem;
+  }
+  .container p {
+    font-size: 1.2rem;
+  }
+  .container ul li {
+    font-size: 1.05rem;
+  }
+}
+
+/* Mobile - Full Width Layout */
+@media (max-width: 768px) {
+  body {
+    background: #fff;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5rem;
+    text-align: left;
+  }
+
+  .container h1 {
+    font-size: 1.9rem;
+    text-align: center;
+  }
+
+  .container img {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .container p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .container ul li {
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+
+  .container button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  footer {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+}
